@@ -1,0 +1,43 @@
+.container {
+  max-width: 500px;
+  margin: 80px auto;
+  text-align: center;
+  font-family: sans-serif;
+}
+
+.upload-box {
+  border: 2px dashed #ccc;
+  border-radius: 12px;
+  padding: 40px;
+  margin: 24px 0;
+}
+
+.file-name {
+  margin-top: 12px;
+  color: #555;
+}
+
+button {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 12px 32px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:disabled {
+  background-color: #93c5fd;
+  cursor: not-allowed;
+}
+
+.success {
+  color: green;
+  margin-top: 16px;
+}
+
+.error {
+  color: red;
+  margin-top: 16px;
+}
