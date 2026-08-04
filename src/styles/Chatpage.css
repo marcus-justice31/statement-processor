@@ -1,0 +1,26 @@
+.chat-page-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 640px;
+  max-height: 85vh;
+}
+
+.back-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 4px 2px;
+}
+
+.back-link:hover {
+  color: var(--text-primary);
+}
