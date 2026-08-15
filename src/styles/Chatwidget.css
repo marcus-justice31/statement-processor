@@ -136,6 +136,11 @@
   background: #fafafa;
 }
 
+.bubble strong {
+  font-weight: 700;
+  color: inherit;
+}
+
 .chat-input {
   flex: 1;
   resize: none;

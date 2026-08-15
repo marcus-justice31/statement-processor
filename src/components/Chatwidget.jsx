@@ -2,13 +2,21 @@ import { useState, useRef, useEffect } from "react";
 import "../styles/ChatWidget.css";
 import c3poIcon from "../assets/c3po_icon.jpg";
 
-// Point this to n8n webhook that runs the RAG chain over your statements.
-const N8N_WEBHOOK_URL = import.meta.env.VITE_N8N_CHAT_WEBHOOK_URL;
+const N8N_CHAT_WEBHOOK_URL = import.meta.env.VITE_N8N_CHAT_WEBHOOK_URL;
+
+// Splits on **pairs** and bolds what's between them. Everything else stays as
+// plain text nodes (not HTML), so this can't be used to inject markup.
+function renderWithBold(text) {
+  const parts = text.split(/\*\*(.+?)\*\*/g);
+  return parts.map((part, i) =>
+    i % 2 === 1 ? <strong key={i}>{part}</strong> : part
+  );
+}
 
 const INITIAL_MESSAGE = {
   id: "welcome",
   role: "bot",
-  text: "Hey! Ask me anything about your statements — spending by category, month over month trends, whatever you're curious about.",
+  text: "Hello, Master Marcus! How may I assist you today? You can ask me about your spending, monthly totals, category breakdowns, trends, or any other questions about your financial history.",
 };
 
 export default function ChatWidget() {
@@ -31,7 +39,7 @@ export default function ChatWidget() {
     setIsTyping(true);
 
     try {
-      const res = await fetch(N8N_WEBHOOK_URL, {
+      const res = await fetch(N8N_CHAT_WEBHOOK_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: trimmed }),
@@ -40,8 +48,6 @@ export default function ChatWidget() {
       if (!res.ok) throw new Error(`Webhook returned ${res.status}`);
 
       const data = await res.json();
-      // Adjust this to match whatever field your n8n workflow returns,
-      // e.g. { reply: "..." } or { output: "..." }
       const botText = data.reply ?? data.output ?? "Hmm, I didn't get a response back.";
 
       setMessages((prev) => [...prev, { id: crypto.randomUUID(), role: "bot", text: botText }]);
@@ -73,15 +79,15 @@ export default function ChatWidget() {
           <img src={c3poIcon} alt="Spending buddy avatar" className="chat-avatar-img" />
         </div>
         <div>
-          <p className="chat-title">C-3PO the Finance Droid</p>
-          <p className="chat-subtitle">Ask about your statements</p>
+          <p className="chat-title">C-3PO the Credit Droid</p>
+          <p className="chat-subtitle">Ask anything about your visa spending history</p>
         </div>
       </div>
 
       <div className="chat-scroll" ref={scrollRef}>
         {messages.map((m) => (
           <div key={m.id} className={`bubble-row ${m.role}`}>
-            <div className={`bubble ${m.role}`}>{m.text}</div>
+            <div className={`bubble ${m.role}`}>{renderWithBold(m.text)}</div>
           </div>
         ))}
 
