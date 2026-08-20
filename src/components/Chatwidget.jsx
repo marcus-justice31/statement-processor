@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import "../styles/ChatWidget.css";
 import c3poIcon from "../assets/c3po_icon.jpg";
 
-const N8N_CHAT_WEBHOOK_URL = import.meta.env.VITE_N8N_CHAT_WEBHOOK_URL;
+const FINANCIAL_AGENT_CHAT_WEBHOOK_URL = import.meta.env.VITE_N8N_FINANCIAL_AGENT_CHAT_WEBHOOK_URL;
 
 // Splits on **pairs** and bolds what's between them. Everything else stays as
 // plain text nodes (not HTML), so this can't be used to inject markup.
@@ -38,7 +38,7 @@ export default function ChatWidget() {
     setIsTyping(true);
 
     try {
-      const res = await fetch(VITE_N8N_CHAT_WEBHOOK_URL, {
+      const res = await fetch(FINANCIAL_AGENT_CHAT_WEBHOOK_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: trimmed }),
