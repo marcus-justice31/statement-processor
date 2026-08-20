@@ -14,7 +14,6 @@ function renderWithBold(text) {
 }
 
 const INITIAL_MESSAGE = {
-  id: "welcome",
   role: "bot",
   text: "Hello, Master Marcus! How may I assist you today? You can ask me about your spending, monthly totals, category breakdowns, trends, or any other questions about your financial history.",
 };
@@ -33,7 +32,7 @@ export default function ChatWidget() {
     const trimmed = input.trim();
     if (!trimmed || isTyping) return;
 
-    const userMessage = { id: crypto.randomUUID(), role: "user", text: trimmed };
+    const userMessage = { role: "user", text: trimmed };
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setIsTyping(true);
@@ -50,12 +49,11 @@ export default function ChatWidget() {
       const data = await res.json();
       const botText = data.reply ?? data.output ?? "Hmm, I didn't get a response back.";
 
-      setMessages((prev) => [...prev, { id: crypto.randomUUID(), role: "bot", text: botText }]);
+      setMessages((prev) => [...prev, { role: "bot", text: botText }]);
     } catch (err) {
       setMessages((prev) => [
         ...prev,
         {
-          id: crypto.randomUUID(),
           role: "bot",
           text: "Couldn't reach the statement bot just now. Check the n8n webhook and try again.",
         },
@@ -85,8 +83,8 @@ export default function ChatWidget() {
       </div>
 
       <div className="chat-scroll" ref={scrollRef}>
-        {messages.map((m) => (
-          <div key={m.id} className={`bubble-row ${m.role}`}>
+        {messages.map((m, i) => (
+          <div key={i} className={`bubble-row ${m.role}`}>
             <div className={`bubble ${m.role}`}>{renderWithBold(m.text)}</div>
           </div>
         ))}
