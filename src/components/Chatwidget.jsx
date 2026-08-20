@@ -38,7 +38,7 @@ export default function ChatWidget() {
     setIsTyping(true);
 
     try {
-      const res = await fetch(N8N_CHAT_WEBHOOK_URL, {
+      const res = await fetch(VITE_N8N_CHAT_WEBHOOK_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: trimmed }),
